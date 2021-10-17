@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8" />
+    <title>Creative Project 2</title>
+    <link rel="stylesheet" href="/styles.css">
+
+    </head>
+    <body>
+        <div class="wordbox">
+    <h1 class="title">Zen Quotes to feel... Zen</h1>
+    <h2 id="quote"></h2>
+    <h3 id="author"></h3>
+    </div>
+
+
+
+    <video id="background-video" autoplay loop muted >
+        <source src="/garden.mp4" type="video/mp4">
+      </video>
+
+      <audio id="music" loop="true"> 
+        <source src="piano.mp3" type="audio/mp3">
+      </audio>
+      
+      <script type="text/javascript">
+        
+        var quotes;
+        var audio = document.getElementById("music");
+        //document.getElementById("background-video").onclick(audio.play())
+        
+    
+        
+        var api_url = "https://cors-anywhere.herokuapp.com";
+        api_url +="/zenquotes.io/api/quotes/";
+        //const api_url = "https://zenquotes.io?api=quotes"
+        function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        async function getapi(url)
+        {
+         
+          const response = await fetch(url, {mode:"cors"})//, {mode:"no-cors"});
+          var data = await response.json();
+          console.log(data);
+          quotes = data;
+          document.getElementById("quote").textContent = quotes[0].q;
+          document.getElementById("author").textContent = "- " + quotes[0].a;
+          
+          for(let i = 1; i < 49;i++) {
+              await sleep(6000);
+              document.getElementById("quote").textContent = quotes[i].q;
+              document.getElementById("author").textContent = "- " + quotes[i].a;
+          }
+        }
+        
+        getapi(api_url);
+        document.getElementById("background-video").addEventListener("click", () => {audio.play();})
+        
+        
+        //document.getElementById("quote").textContent = quotes[0].a;
+            
+        
+        
+        </script>
+    </body>
+</html>
